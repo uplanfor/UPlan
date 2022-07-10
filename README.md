@@ -1,6 +1,6 @@
-# UClass
+# UPlan
 
-> UClass是鄙人练习写的模版类 **简易实现,效果当然比不上STL**,UClass的每一个类,除了特殊声明外,均有他自己的迭代器
+> UPlan是鄙人练习写的模版类 **简易实现,效果当然比不上STL**,UPlan的每一个类,除了特殊声明外,均有他自己的迭代器
 >
 > 为了方便使用,**所有模板类的公开成员函数都就尽量用C++ STL的方式命名**
 
@@ -31,9 +31,9 @@
 
 迭代器通常也是一个类,类里面的成员变量是指针,
 
-UClass为了使她自己的迭代器调用方式看起来和STL一样,使得每个类都有其专属的迭代器
+UPlan为了使她自己的迭代器调用方式看起来和STL一样,使得每个类都有其专属的迭代器
 
-例如:对于UClass的每个对象,如果可能都可以通过begin(), end(), rbegin(), rend(), cbegin(), cend(), crbegin(), crend()获得迭代器
+例如:对于UPlan的每个对象,如果可能都可以通过begin(), end(), rbegin(), rend(), cbegin(), cend(), crbegin(), crend()获得迭代器
 
 ```cpp
 template <typename T>
