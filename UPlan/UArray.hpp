@@ -199,9 +199,15 @@ public:
             --m_ptr;
             return *this;
         }
-        bool operator!=(const u_random_iterator& it)
+
+        bool operator!=(const u_reserve_random_iterator &it)
         {
             return it.m_ptr != this->m_ptr;
+        }
+        
+        bool operator==(const u_reserve_random_iterator &it)
+        {
+            return it.m_ptr == this->m_ptr;
         }
 
     private:
@@ -249,9 +255,14 @@ public:
             return *this;
         }
 
-        bool operator!=(const u_reserve_random_iterator& it)
+        bool operator!=(const u_reserve_random_iterator &it)
         {
             return it.m_ptr != this->m_ptr;
+        }
+
+        bool operator==(const u_reserve_random_iterator &it)
+        {
+            return it.m_ptr == this->m_ptr;
         }
 
     private:
