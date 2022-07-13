@@ -6,8 +6,8 @@
 
 ## 目前的类&将来要实现的类
 
-- [ ] UArray [数组](./docs/UArray.md)
-- [ ] UDynamicArray [动态数组](./docs/UDynamicArray.md)
+- [X] UArray [数组](./docs/UArray.md)
+- [X] UDynamicArray [动态数组](./docs/UDynamicArray.md)
 - [ ] UVector [向量](./docs/UVector.md)
 - [ ] UFowardList  [单链表](./docs/ULinkedList.md)
 - [ ] UCircularList [单向循环链表](./docs/UCircularLinkedList.md)
