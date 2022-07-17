@@ -1,9 +1,9 @@
 #include <iostream>
-#include "UPlan/UArray.hpp"
-#include <array>
+#include <vector>
+#include "UPlan/UVector.hpp"
 
-template<typename Container>
-void print_container(const Container &con)
+template <class Container>
+void print_container(Container &con)
 {
     for (auto it = con.cbegin(); it != con.cend(); ++it)
     {
@@ -14,13 +14,20 @@ void print_container(const Container &con)
 
 void test01()
 {
-    UArray<int, 5> arr = {1, 2, 3, 4, 5};
-    print_container(arr);
+    std::vector<int> v;
+    UVector<int> mv(5, 6);
+    print_container(mv);
 }
+
+void test02()
+{
+}
+
 
 int main()
 {
     test01();
+    // test02();
     system("pause");
     return 0;
 }

@@ -1,16 +1,14 @@
 #ifndef _UARRAY_HPP
 #define _UARRAY_HPP
-#include <initializer_list>
+#include "UIterator.hpp"
 
 
 template <class T, size_t N>
 class UArray
 {
 public:
-    class u_random_iterator;
-    class u_reserve_random_iterator;
-    using iterator = u_random_iterator;
-    using reserve_iterator = u_reserve_random_iterator;
+    using iterator = URandomIterator<T>;
+    using reserve_iterator = UReserveRandomIterator<T>;
     using const_iterator = const iterator;
     using const_reserve_iterator = const reserve_iterator;
 
@@ -62,7 +60,7 @@ public:
     // to get the element of the array by its positon
     // @param pos the position of the element
     // @return the reference of the element
-    inline T& operator[](size_t pos)
+    inline T& operator[](const size_t &pos)
     {
         return m_data[pos];
     }
@@ -119,155 +117,45 @@ public:
         }
     }
 
-    inline iterator begin()
+    constexpr iterator begin()
     {
         return &m_data[0];
     }
 
-    inline iterator end()
+    constexpr iterator end()
     {
         return &m_data[N];
     }
 
-    inline reserve_iterator rbegin()
+    constexpr reserve_iterator rbegin()
     {
-        return &data[N - 1];
+        return &m_data[N - 1];
     }
 
-    inline reserve_iterator rend()
+    constexpr reserve_iterator rend()
     {
-        return &data[-1];
+        return &m_data[-1];
     }
 
-    inline const_iterator cbegin()
+    constexpr const_iterator cbegin()
     {
         return begin();
     }
 
-    inline const_iterator cend()
+    constexpr const_iterator cend()
     {
         return end();
     }
 
-    inline const_reserve_iterator crbegin()
+    constexpr const_reserve_iterator crbegin()
     {
         return rbegin();
     }
 
-    inline const_reserve_iterator crend()
+    constexpr const_reserve_iterator crend()
     {
         return rend();
     }
-
-    class u_random_iterator
-    {
-    public:
-        u_random_iterator(T* ptr): m_ptr(ptr){}
-
-        T& operator*()
-        {
-            return *m_ptr;
-        }
-
-        T* operator->()
-        {
-            return m_ptr;
-        }
-
-        u_random_iterator operator++()
-        {
-            u_random_iterator temp = *this;
-            ++m_ptr;
-            return temp;
-        }
-
-        u_random_iterator operator--()
-        {
-            u_random_iterator temp = *this;
-            --m_ptr;
-            return temp;
-        }
-
-        u_random_iterator& operator++(int)
-        {
-            ++m_ptr;
-            return *this;
-        }
-
-        u_random_iterator& operator--(int)
-        {
-            --m_ptr;
-            return *this;
-        }
-
-        bool operator!=(const u_reserve_random_iterator &it)
-        {
-            return it.m_ptr != this->m_ptr;
-        }
-        
-        bool operator==(const u_reserve_random_iterator &it)
-        {
-            return it.m_ptr == this->m_ptr;
-        }
-
-    private:
-        T *m_ptr;
-    };
-
-    class u_reserve_random_iterator
-    {
-    public:
-        u_reserve_random_iterator(T* ptr): m_ptr(ptr){}
-
-        T& operator*()
-        {
-            return *m_ptr;
-        }
-
-        T* operator->()
-        {
-            return m_ptr;
-        }
-
-        u_reserve_random_iterator operator++()
-        {
-            u_reserve_random_iterator temp = *this;
-            --m_ptr;
-            return temp;
-        }
-
-        u_reserve_random_iterator operator--()
-        {
-            u_reserve_random_iterator temp = *this;
-            ++m_ptr;
-            return temp;
-        }
-
-        u_reserve_random_iterator& operator++(int)
-        {
-            --m_ptr;
-            return *this;
-        }
-
-        u_reserve_random_iterator& operator--(int)
-        {
-            ++m_ptr;
-            return *this;
-        }
-
-        bool operator!=(const u_reserve_random_iterator &it)
-        {
-            return it.m_ptr != this->m_ptr;
-        }
-
-        bool operator==(const u_reserve_random_iterator &it)
-        {
-            return it.m_ptr == this->m_ptr;
-        }
-
-    private:
-        T *m_ptr;
-    };
 private:
     T m_data[N];
 };
