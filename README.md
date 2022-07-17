@@ -38,12 +38,14 @@ UClass为了使她自己的迭代器调用方式看起来和STL一样,使得每�
 
 ```cpp
 template <typename T>
-class UDynamicArray {
+class UDynamicArray 
+{
 public:
     class u_random_iterator;
     typedef u_random_iterator iterator;
     /* 省略非关键代码 */
-    class u_random_iterator {
+    class u_random_iterator 
+    {
     public: 
         /*  省略非关键代码 */
         /* 省略大量代码 */
