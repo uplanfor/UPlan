@@ -3,7 +3,7 @@
 #include "UIterator.hpp"
 
 
-template <class T, size_t N>
+template <typename T, size_t N>
 class UArray
 {
 public:

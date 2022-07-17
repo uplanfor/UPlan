@@ -2,7 +2,7 @@
 #define _UVECTOR_HPP
 #include "UIterator.hpp"
 
-template <class T>
+template <typename T>
 class UVector
 {
 public:
@@ -33,18 +33,19 @@ public:
     UVector(const size_t &size)
     {
         m_first = new T[size];
-        m_last += size * sizeof(T);
-        m_end = m_last;
+        m_last = m_first;
+        m_end = &m_first[size];
     }
 
     // to construct a dynamic vector that will be filled with vals
     // @param size the number of the vals
     // @param val the elem to fill the vector
     UVector(const size_t &size, const T &val) : UVector(size)
-    {        
-        for (size_t i = 0; i != size; ++i)
+    {
+        size_t my_size = size;
+        while (my_size--)
         {
-            m_first[i] = val;
+            *m_last++ = val;
         }
     }
 
@@ -52,6 +53,7 @@ public:
     UVector(const UVector<T> &copy) : UVector(copy.size())
     {
         memcpy(m_first, copy.m_first, sizeof(T) * copy.size());
+        m_last = m_end;
     }
 
     UVector(const std::initializer_list<T> &list) : UVector(list.size())
@@ -174,14 +176,15 @@ public:
         if (size > capacity())
         {
             T *temp = new T[size];
+            size_t old_size = this->size();
             if (m_first)
             {
                 memcpy(temp, m_first, sizeof(T) * this->size());
                 delete[] m_first;
             }
             m_first = temp;
-            m_end = m_first;
-            m_end += size;
+            m_last = &m_first[old_size];
+            m_end = &m_first[size];
         }
     }
 
@@ -194,8 +197,7 @@ public:
         {
             reserve(m_first ? (capacity() * 1.5) : 4);
         }
-        *m_last = val;
-        ++m_last;
+        *m_last++ = val;
     }
 
     // to remove the last elem of the vector
@@ -212,19 +214,19 @@ public:
     // @param val the value to insert
     void insert(iterator where, const T& val)
     {
-        // if (m_first)
-        // {
-        //     if (m_last == m_end)
-        //     {
-        //         size_t steps = static_cast<size_t>(&*where - &*begin()) * sizeof(T);
-        //         reserve(m_capacity * 1.5);
-        //         where = (T*)((char*)(&front()) + steps);
-        //     }
-        //     iterator old_end = end();
-        //     ++m_size;
-        //     UIteratorBackCopy(where, old_end, end());
-        //     *where = val;
-        // }
+        if (m_first)
+        {
+            if (m_last == m_end)
+            {
+                size_t steps = static_cast<size_t>(&*where - &*begin()) * sizeof(T);
+                reserve(capacity() * 1.5);
+                where = (T*)((char*)(&front()) + steps);
+            }
+            iterator old_end = end();
+            ++m_last;
+            UIteratorBackCopy(where, old_end, end());
+            *where = val;
+        }
     }
 
     // to insert a value for count times in the position that the iterator points to
@@ -233,68 +235,68 @@ public:
     // @param val the value to insert
     void insert(iterator where, const size_t &count, const T& val)
     {
-        // if (count && m_first)
-        // {
-        //     size_t target = m_size + count + 3;
-        //     if (target > m_capacity)
-        //     {
-        //         size_t steps = static_cast<size_t>(&*where - &*begin()) * sizeof(T);
-        //         reserve(target);
-        //         where = (T*)((char*)(&front()) + steps);
-        //     }
-        //     iterator old_end = end();
-        //     m_size += count;
-        //     UIteratorBackCopy(where, old_end, end());
-        //     UIteratorFill(where, count, val);
-        // }
+        if (count && m_first)
+        {
+            size_t target = size() + count + 3;
+            if (target > capacity())
+            {
+                size_t steps = static_cast<size_t>(&*where - &*begin()) * sizeof(T);
+                reserve(target);
+                where = (T*)((char*)(&front()) + steps);
+            }
+            iterator old_end = end();
+            m_last += count;
+            UIteratorBackCopy(where, old_end, end());
+            UIteratorFill(where, count, val);
+        }
     }
 
-    // // to insert the elems between the range of the two iterators
-    // void insert(iterator where, iterator beg, iterator end)
-    // {
-    //     size_t count = &*end - &*beg;
-    //     if (count && m_data)
-    //     {
-    //         size_t target = m_size + count + 3;
-    //         if (target > m_capacity)
-    //         {
-    //             size_t steps = static_cast<size_t>(&*where - &*begin()) * sizeof(T);
-    //             reserve(target);
-    //             where = (T*)((char*)(&front()) + steps);
-    //         }
-    //         iterator old_end = this->end();
-    //         m_size += count;
-    //         UIteratorBackCopy(where, old_end, this->end());
-    //         UIteratorCopy(beg, end, where);
-    //     }
-    // }
+    // to insert the elems between the range of the two iterators
+    void insert(iterator where, iterator beg, iterator end)
+    {
+        size_t count = &*end - &*beg;
+        if (count && m_first)
+        {
+            size_t target = size() + count + 3;
+            if (target > capacity())
+            {
+                size_t steps = static_cast<size_t>(&*where - &*begin()) * sizeof(T);
+                reserve(target);
+                where = (T*)((char*)(&front()) + steps);
+            }
+            iterator old_end = this->end();
+            m_last += count;
+            UIteratorBackCopy(where, old_end, this->end());
+            UIteratorCopy(beg, end, where);
+        }
+    }
 
-    // // to remove the elem which the iterator points to
-    // // @param where the iterator
-    // // @return the next of the elem removed
-    // iterator erase(iterator where)
-    // {
-    //     if (where != --end())
-    //     {
-    //         iterator next = where;
-    //         ++next;
-    //         UIteratorCopy(next, end(), where);
-    //     }
-    //     --m_size;
-    //     return where;
-    // }
+    // to remove the elem which the iterator points to
+    // @param where the iterator
+    // @return the next of the elem removed
+    iterator erase(iterator where)
+    {
+        if (where != --end())
+        {
+            iterator next = where;
+            ++next;
+            UIteratorCopy(next, end(), where);
+        }
+        --m_last;
+        return where;
+    }
 
-    // // to remove elems in the range between two iterators
-    // // @param beg the beginning of the range
-    // // @param end the end of the range
-    // // @return the next of the elem removed
-    // iterator erase(iterator beg, iterator end)
-    // {
-    //     size_t length = static_cast<size_t>(&*end - &*beg);
-    //     UIteratorCopy(end, this->end(), beg);
-    //     m_size -= length;
-    //     return beg;
-    // }
+    // to remove elems in the range between two iterators
+    // @param beg the beginning of the range
+    // @param end the end of the range
+    // @return the next of the elem removed
+    iterator erase(iterator beg, iterator end)
+    {
+        size_t length = static_cast<size_t>(&*end - &*beg);
+        UIteratorCopy(end, this->end(), beg);
+        m_last -= length;
+        return beg;
+    }
 
     // to swap with the other
     // @param other the vector that swap with
@@ -351,4 +353,4 @@ private:
 };
 
 
-#endif
+#endif // !_UVECTOR_HPP

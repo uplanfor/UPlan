@@ -56,7 +56,6 @@ public:
     using UIterator<T>::UIterator;
     using UIterator<T>::m_ptr;
 
-#ifndef NO_USE_CPLUSPLUS_STYLE
     UForwardIterator operator++()
     {
         decltype(*this) temp = *this;
@@ -69,7 +68,6 @@ public:
         ++m_ptr;
         return *this;
     }
-#endif
 };
 
 
@@ -80,7 +78,6 @@ public:
     using UIterator<T>::UIterator;
     using UIterator<T>::m_ptr;
 
-#ifndef NO_USE_CPLUSPLUS_STYLE
     UReserveForwardIterator operator++()
     {
         decltype(*this) temp = *this;
@@ -93,7 +90,6 @@ public:
         --m_ptr;
         return *this;
     }
-#endif
 };
 
 
@@ -104,7 +100,6 @@ public:
     using UIterator<T>::UForwardIterator;
     using UIterator<T>::m_ptr;
 
-#ifndef NO_USE_CPLUSPLUS_STYLE
     UBidirctionalIterator operator++()
     {
         decltype(*this) temp = *this;
@@ -129,7 +124,6 @@ public:
         --m_ptr;
         return *this;
     }
-#endif
 };
 
 
@@ -140,8 +134,6 @@ public:
     using UIterator<T>::UIterator;
     using UIterator<T>::m_ptr;
 
-
-#ifndef NO_USE_CPLUSPLUS_STYLE
     UReserveBidirctionalIterator operator++()
     {
         decltype(*this) temp = *this;
@@ -166,7 +158,6 @@ public:
         ++m_ptr;
         return *this;
     }
-#endif
 };
 
 
@@ -237,7 +228,6 @@ public:
     using UIterator<T>::UIterator;
     using UIterator<T>::m_ptr;
 
-#ifndef NO_USE_CPLUSPLUS_STYLE
     UReserveRandomIterator operator++()
     {
         decltype(*this) temp = *this;
@@ -284,7 +274,6 @@ public:
     {
         return m_ptr[-size];
     }
-#endif
 };
 
 
@@ -345,4 +334,4 @@ void UIteratorBackCopy(UIterator beg, UIterator end, UIterator pos)
         *pos = *end;
     }while (pos != beg);
 }
-#endif
+#endif // !_UITERATOR_HPP

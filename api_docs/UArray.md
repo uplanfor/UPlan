@@ -3,7 +3,7 @@
 UArray是封装好的静态数组，添加了一些成员函数便于使用，类原型声明如下：
 
 ```cpp
-template <class T, size_t N>
+template <typename T, size_t N>
 class UArray
 {
 public:

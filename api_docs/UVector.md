@@ -5,7 +5,7 @@ UVector是封装好的UVector，用起来和UDynamicarray相似，但是内部�
 类声明如下：
 
 ```cpp
-template <class T>
+template <typename T>
 class UVector
 {
 public:

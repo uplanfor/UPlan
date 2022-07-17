@@ -5,7 +5,7 @@ UDynamicArray是封装好的动态数组，用起来和UVector相似，但是内
 类声明如下：
 
 ```cpp
-template <class T>
+template <typename T>
 class UDynamicArray
 {
 public:

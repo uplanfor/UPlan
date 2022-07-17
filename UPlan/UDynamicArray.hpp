@@ -2,7 +2,7 @@
 #define _UDYNSMICARRAY_HPP
 #include "UIterator.hpp"
 
-template <class T>
+template <typename T>
 class UDynamicArray
 {
 public:
@@ -41,7 +41,7 @@ public:
     // @param size the number of the vals
     // @param val the elem to fill the array
     UDynamicArray(const size_t &size, const T &val) : UDynamicArray(size)
-    {        
+    {
         for (size_t i = 0; i != size; ++i)
         {
             m_data[i] = val;
@@ -365,4 +365,4 @@ private:
 };
 
 
-#endif
+#endif // !_UDYNAMICARRAY_HPP
