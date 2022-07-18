@@ -1,15 +1,18 @@
-# UClass
+# UPlan
 
-> UClass是鄙人练习写的模版类 **简易实现,效果当然比不上STL**,UClass的每一个类,除了特殊声明外,均有他自己的迭代器
+> UPlan是鄙人练习写的模版类 **简易实现,效果当然比不上STL**,UPlan的每一个类,除了特殊声明外,均有他自己的迭代器
 > 
 > 为了方便使用,**所有模板类的公开成员函数都就尽量用C++ STL的方式命名**
 
-## 目前的类&将来要实现的类
+UPlan的每个类如无特殊声明，均支持迭代器，如果可以均可通过begin(), end(), rbegin(), rend(), cbegin(), cend(), crbegin(), crend()获得迭代器。UPlan的迭代器参考：[点击查看](./api_docs/UIterator.md)
+
+## 奋斗目标
 
 - [x] UArray [数组](./api_docs/UArray.md)
 - [x] UDynamicArray [动态数组](./api_docs/UDynamicArray.md)
 - [x] UVector [向量](./api_docs/UVector.md)
-- [ ] UFowardList  [单链表](./api_docs/ULinkedList.md)
+- [x] UForwardList  [单链表,但是STL风格](./api_docs/ULinkedList.md)
+- [ ] ULinkedList [单链表,但是UPlan风格](./api_docs/ULInkedList.md)
 - [ ] UCircularList [单向循环链表](./api_docs/UCircularLinkedList.md)
 - [ ] UBidirctionalList [双向链表](./api_docs/UBidirctionalLinkedList.md)
 - [ ] UList [双向循环链表](./api_docs/UList.md)
@@ -25,34 +28,23 @@
 - [ ] UScapegoatTree [替罪羊树](./api_docs/UScapegoatTree.md)
 - [ ] UBTree [B树](./api_docs/UBTree.md)
 - [ ] UHeap [堆](./api_docs/UHeap.md)
+- [ ] USet [集合](./api_docs/uset.md)
+- [ ] UMultiset [多重集合](./api_docs/UMultiset.md)
+- [ ] UMap [集合](./api_docs/UMap.md)
+- [ ] UMultimap[多重集合](./api_docs/UMultimap.md)
+- [ ] UUnorderedSet[无序集合](./api_docs/UUnorderdSet.md)
+- [ ] UUnorderedMultiset[无序多重集合](./api_docs/UUnorderedMultiset.md)
+- [ ] UUnorderedMap[无序集合](./api_docs/UUnorderdSet.md)
+- [ ] UUnorderedMultimap[无序多重集合](./api_docs/UUnorderedMultimap.md)
+
+## 杂项
+
+- [x] UIterator [迭代器](./api_docs/UIterator.md)
+- [ ] ULinkedNode [链表节点](./api_docs/ULinkedNode.md)
 
 ## 关于迭代器
 
 > 迭代器的实质: **用于提供一种方法顺序访问一个聚合对象中各个元素, 而又不需暴露该对象的内部表示**,这就是迭代器
-
-迭代器通常也是一个类,类里面的成员变量是指针,
-
-UClass为了使她自己的迭代器调用方式看起来和STL一样,使得每个类都有其专属的迭代器
-
-例如:对于UPlan的每个对象,如果可能都可以通过begin(), end(), rbegin(), rend(), cbegin(), cend(), crbegin(), crend()获得迭代器
-
-```cpp
-template <typename T>
-class UDynamicArray 
-{
-public:
-    class u_random_iterator;
-    typedef u_random_iterator iterator;
-    /* 省略非关键代码 */
-    class u_random_iterator 
-    {
-    public: 
-        /*  省略非关键代码 */
-        /* 省略大量代码 */
-    }
-    /* 省略大量代码 */
-}
-```
 
 所有迭代器总类
 
@@ -68,6 +60,8 @@ public:
 
 随机访问迭代器支持++, -- , [], *, ->, +=, -= 操作
 
-## 心得体会
+## 汲取经验
 
-此外，该目录下有一个work_docs文件夹，该文件夹储存了鄙人写这些简易数据结构的心得
+此外，该目录下有一个feelings_docs文件夹，该文件夹储存了鄙人写这些简易数据结构的心得
+
+[点我查看](FEELINGS_MAIN.md)
