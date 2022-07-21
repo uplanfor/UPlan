@@ -1,4 +1,5 @@
 #include <vector>
+#include <stack>
 #include "test.hpp"
 #include "UPlan/UVector.hpp"
 
